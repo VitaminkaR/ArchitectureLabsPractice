@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ArchitectureLabsPractice": {
+      "commandName": "Project",
+      "commandLineArgs": "arg1 arg2 arg3"
+    }
+  }
+}
