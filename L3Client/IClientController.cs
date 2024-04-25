@@ -13,6 +13,6 @@ namespace L3Client
         void Connect2ServerButton(object? sender, RoutedEventArgs e);
         void SetMessage(object? sender, TextChangedEventArgs e);
         void SendMessageButton(object? sender, RoutedEventArgs e);
-        void ReceiveMsgEvent(string msg);
+        void ReceiveMsgEvent(string msg, int op);
     }
 }

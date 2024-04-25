@@ -4,9 +4,13 @@
     {
         static private void Main()
         {
-            IServer server = new Server();
-            server.CreateServer("127.0.0.1", 8888);
-            server.StartServer();
+            IServerModel serverModel = new ServerModel();
+            IView view = new View();
+            IController controller = new Controller();
+
+            controller.SetView(view);
+            controller.SetModel(serverModel);
+            controller.ControllerMain();
         }
     }
 }

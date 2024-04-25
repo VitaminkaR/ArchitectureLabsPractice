@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesmanSolver", "SalesmanS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L2Server", "L2Server\L2Server.csproj", "{63718155-ABBB-4CEA-9843-D884A395B1ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "L3Client", "L3Client\L3Client.csproj", "{FDF2B756-3B81-4B9D-84D7-1781C3421982}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "L3Client", "L3Client\L3Client.csproj", "{FDF2B756-3B81-4B9D-84D7-1781C3421982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

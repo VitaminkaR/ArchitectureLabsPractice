@@ -6,7 +6,13 @@ using System.Text.RegularExpressions;
 
 namespace L2Server
 {
-    internal class Server : IServer
+    class Client
+    {
+        public TcpClient Cl;
+        public string Nickname;
+    }
+
+    internal class ServerModel : IServerModel
     {
         public const int PACKET_SIZE = 1024;
 
@@ -18,14 +24,24 @@ namespace L2Server
 
         private bool m_IsActive;
 
-        private List<TcpClient> m_Clients;
+        private List<Client> m_Clients;
 
-        public void StartServer()
+        private Action<string> m_ModelChangedAction;
+
+        public bool StartServer()
         {
-            m_TcpListener.Start();
-            Console.WriteLine($"Server started on {IPEndPoint}");
-            m_IsActive = true;
-            ListenClients();
+            try
+            {
+                m_TcpListener.Start();
+                m_IsActive = true;
+                Thread thread = new Thread(new ThreadStart(ListenClients));
+                thread.Start();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void CreateServer(string host, int port)
@@ -34,7 +50,7 @@ namespace L2Server
             Port = port;
             IPEndPoint = new IPEndPoint(IPAddress, Port);
             m_TcpListener = new TcpListener(IPEndPoint);
-            m_Clients = new List<TcpClient>();
+            m_Clients = new List<Client>();
         }
 
         public void ListenClients()
@@ -45,8 +61,8 @@ namespace L2Server
 
                 Thread thread = new Thread(new ParameterizedThreadStart((object? obj) => HandlerClient(tcpClient)));
                 thread.Start();
-                m_Clients.Add(tcpClient);
-                Console.WriteLine("New client connected");
+                m_Clients.Add(new Client() { Cl = tcpClient });
+                m_ModelChangedAction("New client connected");
             }
         }
 
@@ -64,11 +80,26 @@ namespace L2Server
                 {
                     int i = stream.Read(bytes, 0, bytes.Length);
                     data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                    Console.WriteLine($"Received: {data}");
+                    m_ModelChangedAction($"Received: {data}");
                 }
                 catch (Exception)
                 {
-                    m_Clients.Remove(client);
+                    for (int i = 0; i < m_Clients.Count; i++)
+                    {
+                        if (m_Clients[i].Cl == client)
+                        {
+                            m_Clients.Remove(m_Clients[i]);
+
+                            string _data = "u";
+                            for (int j = 0; j < m_Clients.Count; j++)
+                            {
+                                _data += "\n" + m_Clients[j].Nickname;
+                            }
+                            SendStringBroadcast(_data);
+
+                            break;
+                        }
+                    }
                     break;
                 }
 
@@ -77,12 +108,31 @@ namespace L2Server
                     Regex regex = new Regex("n");
                     data = regex.Replace(data, "", 1);
                     nickname = data;
-                    SendStringBroadcast($"{nickname} подключился к чату");
+
+                    for (int i = 0; i < m_Clients.Count; i++)
+                    {
+                        if (m_Clients[i].Cl == client)
+                        {
+                            m_Clients[i].Nickname = nickname;
+
+                            string _data = "u";
+                            for (int j = 0; j < m_Clients.Count; j++)
+                            {
+                                _data += "\n" + m_Clients[j].Nickname;
+                            }
+                            SendStringBroadcast(_data);
+
+                            break;
+                        }
+                    }
+                    Thread.Sleep(500);
+
+                    SendStringBroadcast($"m{nickname} подключился к чату");
                 }
                 if (data[0] == 'm')
                 {
                     Regex regex = new Regex("m");
-                    data = regex.Replace(data, nickname + ": ", 1);
+                    data = regex.Replace(data, "m" + nickname + ": ", 1);
                     SendStringBroadcast(data);
                 }
 
@@ -109,7 +159,7 @@ namespace L2Server
             byte[] bytes = Encoding.UTF8.GetBytes(msg);
             for (int i = 0; i < m_Clients.Count; i++)
             {
-                m_Clients[i].GetStream().Write(bytes, 0, bytes.Length);
+                m_Clients[i].Cl.GetStream().Write(bytes, 0, bytes.Length);
             }
         }
 
@@ -118,9 +168,14 @@ namespace L2Server
             byte[] bytes = Encoding.UTF8.GetBytes(msg);
             for (int i = 0; i < m_Clients.Count; i++)
             {
-                if (m_Clients[i] != clientSender)
-                    m_Clients[i].GetStream().Write(bytes, 0, bytes.Length);
+                if (m_Clients[i].Cl != clientSender)
+                    m_Clients[i].Cl.GetStream().Write(bytes, 0, bytes.Length);
             }
+        }
+
+        public void SetViewHandler(Action<string> action)
+        {
+            m_ModelChangedAction = action;
         }
     }
 }

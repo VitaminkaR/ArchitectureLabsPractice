@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace L3Client
 {
@@ -14,18 +15,27 @@ namespace L3Client
             InitializeComponent();
 
             IClientModel model = new ClientModel();
-            IClientController clientController = new ClientContoller();
+            IClientController clientController = new ClientContoller(this, model);
 
-            clientController.SetView(this);
-            clientController.SetModel(model);
-
-            TB_IP.TextChanged += clientController.IPInput;
-            TB_NickName.TextChanged += clientController.UserNameInput;
-            Button_Connect2Server.Click += clientController.Connect2ServerButton;
-            Button_SendMessage.Click += clientController.SendMessageButton;
             Button_SendMessage.Click += (object sender, RoutedEventArgs e) => { TB_Message.Text = ""; };
-            TB_Message.TextChanged += clientController.SetMessage;
         }
+
+        public void Connect2ServerButtonEventSet(RoutedEventHandler routedEventHandler) =>
+            Button_Connect2Server.Click += routedEventHandler;
+
+        public string GetMessage() => TB_Message.Text;
+
+        public void IPInputEventSet(TextChangedEventHandler textChangedEventHandler) =>
+            TB_IP.TextChanged += textChangedEventHandler;
+
+        public void MessageInputEventSet(TextChangedEventHandler textChangedEventHandler) =>
+            TB_Message.TextChanged += textChangedEventHandler;
+
+        public void NickInputEventSet(TextChangedEventHandler textChangedEventHandler) =>
+            TB_NickName.TextChanged += textChangedEventHandler;
+
+        public void SendMessageButtonEventSet(RoutedEventHandler routedEventHandler) =>
+            Button_SendMessage.Click += routedEventHandler;
 
         public void ShowMessage(string msg)
         {
@@ -38,6 +48,14 @@ namespace L3Client
                 }
                 m_MsgCount++;
                 TF_Chat.Text += msg + "\n";
+            });
+        }
+
+        public void UpdateClientList(string msg)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                TB_UsersList.Text = "Users:\n" + msg;
             });
         }
     }

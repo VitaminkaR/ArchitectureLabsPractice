@@ -10,6 +10,18 @@ namespace L3Client
 
         string m_Message;
 
+        public ClientContoller(IClientView view, IClientModel model)
+        {
+            m_View = view;
+            m_Model = model;
+
+            m_View.IPInputEventSet(IPInput);
+            m_View.SendMessageButtonEventSet(SendMessageButton);
+            m_View.NickInputEventSet(UserNameInput);
+            m_View.Connect2ServerButtonEventSet(Connect2ServerButton);
+            m_View.MessageInputEventSet(SetMessage);
+        }
+
         public void SetModel(IClientModel model) => m_Model = model;
 
         public void SetView(IClientView view) => m_View = view;
@@ -32,11 +44,14 @@ namespace L3Client
 
         public void SendMessageButton(object? sender, RoutedEventArgs e) => m_Model.SendMessage("m" + m_Message);
 
-        public void ReceiveMsgEvent(string msg)
+        public void ReceiveMsgEvent(string msg, int op)
         {
-            m_View.ShowMessage(msg);
+            if (op == 0)
+                m_View.ShowMessage(msg);
+            else
+                m_View.UpdateClientList(msg);
         }
 
-        public void SetMessage(object? sender, TextChangedEventArgs e) => m_Message = ((TextBox)sender).Text;
+        public void SetMessage(object? sender, TextChangedEventArgs e) => m_Message = m_View.GetMessage();
     }
 }

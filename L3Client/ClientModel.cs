@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace L3Client
 {
@@ -12,7 +13,7 @@ namespace L3Client
 
         private TcpClient m_TcpClient;
 
-        private Action<string> m_ReceiveMsg;
+        private Action<string, int> m_ReceiveMsg;
 
         public void Connect()
         {
@@ -36,7 +37,18 @@ namespace L3Client
                 int i = stream.Read(bytes, 0, bytes.Length);
                 data = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
 
-                m_ReceiveMsg(data);
+                if (data[0] == 'm')
+                {
+                    Regex regex = new Regex("m");
+                    data = regex.Replace(data, "", 1);
+                    m_ReceiveMsg(data, 0);
+                }
+                if (data[0] == 'u')
+                {
+                    Regex regex = new Regex("u");
+                    data = regex.Replace(data, "", 1);
+                    m_ReceiveMsg(data, 1);
+                }
 
                 Thread.Sleep(20);
             }
@@ -52,6 +64,6 @@ namespace L3Client
             m_TcpClient.GetStream().Write(bytes, 0, bytes.Length);
         }
 
-        public void SetReceiveMsgEvent(Action<string> handle) => m_ReceiveMsg = handle;
+        public void SetReceiveMsgEvent(Action<string, int> handle) => m_ReceiveMsg = handle;
     }
 }

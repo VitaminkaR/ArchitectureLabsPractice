@@ -6,6 +6,6 @@
         void SetName(string name);
         void Connect();
         void SendMessage(string msg);
-        void SetReceiveMsgEvent(Action<string> handle);
+        void SetReceiveMsgEvent(Action<string, int> handle);
     }
 }

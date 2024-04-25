@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:L3Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="504" Width="720" ResizeMode="NoResize">
+        Title="MainWindow" Height="496" Width="823" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="Button_Connect2Server" Content="Connect" HorizontalAlignment="Left" Margin="578,10,0,0" VerticalAlignment="Top" Height="28" Width="132" FontSize="20" FontWeight="Bold"/>
-        <TextBox x:Name="TB_IP" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="IP" VerticalAlignment="Top" Width="163" Height="28" TextAlignment="Center" FontWeight="Bold" FontSize="20"/>
+        <TextBlock x:Name="TF_Chat" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Height="354" Width="563" FontSize="20" Margin="10,0,0,0"/>
+        <Button x:Name="Button_Connect2Server" Content="Connect" HorizontalAlignment="Left" Margin="578,10,0,0" VerticalAlignment="Top" Height="28" Width="235" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="TB_IP" HorizontalAlignment="Left" Margin="10,12,0,0" TextWrapping="Wrap" Text="IP" VerticalAlignment="Top" Width="163" Height="28" TextAlignment="Center" FontWeight="Bold" FontSize="20"/>
         <TextBox x:Name="TB_NickName" HorizontalAlignment="Left" Margin="178,10,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="395" Height="28" TextAlignment="Center" FontWeight="Bold" FontSize="20"/>
-        <TextBox x:Name="TB_Message" HorizontalAlignment="Left" Margin="10,426,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="563" Height="28" FontWeight="Bold" FontSize="20"/>
+        <TextBox x:Name="TB_Message" HorizontalAlignment="Left" Margin="10,426,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="563" Height="28" FontWeight="Bold" FontSize="20" Grid.ColumnSpan="2"/>
         <Button x:Name="Button_SendMessage" Content="Send" HorizontalAlignment="Left" Margin="578,426,0,0" VerticalAlignment="Top" Height="28" Width="132" FontSize="20" FontWeight="Bold"/>
-        <TextBlock x:Name="TF_Chat" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="354" Width="700" FontSize="20"/>
+        <TextBlock x:Name="TB_UsersList" HorizontalAlignment="Left" Margin="578,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="376" Width="235" TextAlignment="Center" Text="Users" FontFamily="Segoe UI Black" FontSize="16"/>
 
     </Grid>
 </Window>

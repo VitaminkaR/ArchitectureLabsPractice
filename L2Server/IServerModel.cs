@@ -2,14 +2,16 @@
 
 namespace L2Server
 {
-    internal interface IServer
+    internal interface IServerModel
     {
         void CreateServer(string host, int port);
-        void StartServer();
+        bool StartServer();
         void ListenClients();
         void HandlerClient(TcpClient client);
         void CloseServer();
         void SendStringClient(TcpClient client, string msg);
         void SendStringBroadcast(string msg);
+
+        void SetViewHandler(Action<string> action);
     }
 }
