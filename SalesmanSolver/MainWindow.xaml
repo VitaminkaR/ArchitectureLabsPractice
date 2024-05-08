@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="TSPSolver" Height="480" Width="800" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="Button_ClearCanvas" Content="Clear" HorizontalAlignment="Left" Margin="10,413,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" Width="227"/>
-        <Button x:Name="Button_SolveGraph" Content="Solve" HorizontalAlignment="Left" Margin="247,413,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" Width="543"/>
+        <Button x:Name="Button_ClearCanvas" Content="Clear" HorizontalAlignment="Left" Margin="10,413,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" Width="68"/>
+        <Button x:Name="Button_SolveGraph" Content="Solve" HorizontalAlignment="Left" Margin="83,413,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" Width="86"/>
         <Rectangle x:Name="Rect_Map" HorizontalAlignment="Center" Height="398" Margin="0,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="780"/>
+        <TextBlock x:Name="TB_Result" HorizontalAlignment="Left" Margin="174,413,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="616" FontFamily="Calibri" FontSize="18"/>
+        <Canvas x:Name="C_GraphicMap" Margin="10,10,10,56"/>
     </Grid>
 </Window>

@@ -25,18 +25,29 @@ namespace SalesmanSolver
 
         public void ClearGraph(object? sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Clear");
+            m_Model.ClearGraph();
+            m_View.ClearMap();
         }
 
         public void Solve(object? sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Solve");
+            m_Model.SolveGraph();
         }
 
         public void ModifyMap(object? sender, MouseButtonEventArgs e)
         {
             if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
-                Debug.WriteLine("Modify Click");
+            {
+                Node node = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                m_Model.AddTown(node);
+                m_View.ShowNode(node, "T");
+            }
+
+            if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
+            {
+                Node node = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                m_View.RemoveNode(m_Model.RemoveTown(node));
+            }
         }
     }
 }
