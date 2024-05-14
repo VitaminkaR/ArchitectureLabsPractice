@@ -10,5 +10,6 @@ namespace SalesmanSolver
         public void RemovePath(int id1, int id2);
         public List<Node> GetNodes();
         public int[,] GetAdjacentMatrix();
+        public void ClearGraph();
     }
 }

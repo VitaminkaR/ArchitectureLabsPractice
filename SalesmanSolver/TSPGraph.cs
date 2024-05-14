@@ -20,6 +20,12 @@ namespace SalesmanSolver
 
         public void AddNode(Node vec) => m_Towns.Add(new Town($"T{m_Towns.Count + 1}", vec.X, vec.Y));
 
+        public void ClearGraph()
+        {
+            m_Towns.Clear();
+            m_Paths.Clear();
+        }
+
         public void CreatePath(int id1, int id2) => m_Paths.Add(new Node(id1, id2));
 
         public int[,] GetAdjacentMatrix()
@@ -38,7 +44,9 @@ namespace SalesmanSolver
                         int it2 = (int)m_Paths[j].Y;
                         Town t1 = m_Towns[it1];
                         Town t2 = m_Towns[it2];
-                        adjacentMatrix[it1, it2] = (int)MathF.Sqrt(((t2.X - t1.X) * (t2.X - t1.X)) + ((t2.Y - t1.Y) * (t2.Y - t1.Y)));
+                        int dist = (int)MathF.Sqrt(((t2.X - t1.X) * (t2.X - t1.X)) + ((t2.Y - t1.Y) * (t2.Y - t1.Y)));
+                        adjacentMatrix[it1, it2] = dist;
+                        adjacentMatrix[it2, it1] = dist;
                     }
                 }
             }
@@ -54,7 +62,21 @@ namespace SalesmanSolver
             return list;
         }
 
-        public void RemoveNode(int id) => m_Towns.RemoveAt(id);
+        public void RemoveNode(int id)
+        {
+            m_Towns.RemoveAt(id);
+            for (int i = 0; i < m_Paths.Count;)
+            {
+                if (m_Paths[i].X == id || m_Paths[i].Y == id)
+                {
+                    m_Paths.RemoveAt(i);
+                } 
+                else
+                {
+                    i++;
+                }
+            }
+        } 
 
         public void RemovePath(Node vec) => m_Paths.Remove(vec); 
 

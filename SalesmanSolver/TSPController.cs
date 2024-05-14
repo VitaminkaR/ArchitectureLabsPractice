@@ -9,6 +9,9 @@ namespace SalesmanSolver
         private IModel m_Model;
         private IView m_View;
 
+        // хранит временый узел для соединения городов (1 город)
+        private Node? m_TempNode;
+
         public TSPController(IModel model, IView view)
         {
             m_Model = model;
@@ -31,22 +34,47 @@ namespace SalesmanSolver
 
         public void Solve(object? sender, RoutedEventArgs e)
         {
-            m_Model.SolveGraph();
+            string res = m_Model.SolveGraph();
+            m_View.ShowResult(res.Length != 0 ? $"Длина кратчайшего пути: {res}" : "Ошибка расчёта");
         }
 
         public void ModifyMap(object? sender, MouseButtonEventArgs e)
         {
             if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
             {
-                Node node = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
-                m_Model.AddTown(node);
-                m_View.ShowNode(node, "T");
+                Node clickedCoords = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                Node? node = m_Model.GetTown(clickedCoords);
+                if (node == null)
+                {
+                    m_Model.AddTown(clickedCoords);
+                    m_View.ShowNode(clickedCoords, "T");
+                }
+                else
+                {
+                    m_View.RemoveNode(m_Model.RemoveTown(clickedCoords));
+                }
             }
 
             if (e.MouseDevice.RightButton == MouseButtonState.Pressed)
             {
-                Node node = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
-                m_View.RemoveNode(m_Model.RemoveTown(node));
+                Node clickedCoords = new Node((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                Node? node = m_Model.GetTown(clickedCoords);
+
+                if(node != null)
+                {
+                    if(m_TempNode == null)
+                    {
+                        m_TempNode = node;
+                    }
+                    else
+                    {
+                        int tmpNodeID = m_Model.GetTownID(m_TempNode);
+                        int curNodeID = m_Model.GetTownID(node);
+                        m_Model.CreatePath(tmpNodeID, curNodeID);
+                        m_View.ShowPath(m_TempNode, node);
+                        m_TempNode = null;
+                    }
+                }
             }
         }
     }

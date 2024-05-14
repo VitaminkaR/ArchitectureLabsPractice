@@ -18,6 +18,8 @@ namespace SalesmanSolver
     public partial class SalesmanView : Window, IView
     {
         List<Ellipse> m_Nodes = new List<Ellipse>();
+        List<Line> m_Paths = new List<Line>();
+        List<Label> m_Labels = new List<Label>();
 
         public SalesmanView()
         {
@@ -43,20 +45,36 @@ namespace SalesmanSolver
             if (node == null)
                 return;
 
-            Predicate<Ellipse> pr = (Ellipse el) => 
+            Predicate<Ellipse> pr_e = (Ellipse el) => 
             el.Margin.Left + Application.TOWN_SIZE == node.X && el.Margin.Top + Application.TOWN_SIZE == node.Y;
-            Ellipse ?el = m_Nodes.Find(pr);
+            Ellipse ?el = m_Nodes.Find(pr_e);
+
+            Predicate<Line> pr_l = (Line line) =>
+            line.X1 + Application.TOWN_SIZE / 2 == node.X && line.Y1 + Application.TOWN_SIZE / 2 == node.Y ||
+            line.X2 + Application.TOWN_SIZE / 2 == node.X && line.Y2 + Application.TOWN_SIZE / 2 == node.Y;
+            List<Line> lines = m_Paths.FindAll(pr_l);
+
             if (el != null)
             {
                 m_Nodes.Remove(el);
                 C_GraphicMap.Children.Remove(el);
             }    
+            if(lines.Count > 0)
+            {
+                foreach (var line in lines)
+                {
+                    m_Paths.Remove(line);
+                    C_GraphicMap.Children.Remove(line);
+                }  
+            }
         }
 
         public void ClearMap()
         {
             C_GraphicMap.Children.Clear();
             m_Nodes.Clear();
+            m_Paths.Clear();
+            m_Labels.Clear();
         }
 
         public void ShowNode(Node node, string name)
@@ -70,6 +88,19 @@ namespace SalesmanSolver
             el.Fill = new SolidColorBrush(Colors.White);
             C_GraphicMap.Children.Add(el);
             m_Nodes.Add(el);
+        }
+
+        public void ShowPath(Node n1, Node n2)
+        {
+            Line line = new Line();
+            line.X1 = n1.X - Application.TOWN_SIZE/2;
+            line.X2 = n2.X - Application.TOWN_SIZE/2;
+            line.Y1 = n1.Y - Application.TOWN_SIZE/2;
+            line.Y2 = n2.Y - Application.TOWN_SIZE/2;
+            line.StrokeThickness = 2;
+            line.Stroke = new SolidColorBrush(Colors.Black);
+            C_GraphicMap.Children.Add(line);
+            m_Paths.Add(line);
         }
     }
 }
