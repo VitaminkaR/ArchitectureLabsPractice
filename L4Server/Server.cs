@@ -3,7 +3,6 @@ using System.Net;
 using System.Text;
 using System.Xml.Serialization;
 using Messages;
-using System.Drawing;
 
 namespace L4Server
 {

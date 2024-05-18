@@ -31,6 +31,14 @@ namespace L4Server.Functions
             }
             while (true)
             {
+                if (di <= 0 || dj <= 0)
+                    break;
+                di--;
+                dj--;
+            }
+            int mincolumn = dj;
+            while (true)
+            {
                 if (di >= size || dj >= size)
                     break;
 
@@ -42,7 +50,7 @@ namespace L4Server.Functions
             bool mul = false;
             while (true)
             {
-                if (!mul && (ar[cdi, cdj] == 0 || (cdj == 0 && ar[cdi, cdj] != 0)))
+                if (!mul && (ar[cdi, cdj] == 0 || (cdj < mincolumn)))
                     mul = true;
 
                 if (mul)
