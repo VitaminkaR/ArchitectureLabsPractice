@@ -47,17 +47,17 @@ namespace SalesmanSolver
 
             Predicate<Ellipse> pr_e = (Ellipse el) => 
             el.Margin.Left + Application.TOWN_SIZE == node.X && el.Margin.Top + Application.TOWN_SIZE == node.Y;
-            Ellipse ?el = m_Nodes.Find(pr_e);
+            int el = m_Nodes.FindIndex(pr_e);
 
             Predicate<Line> pr_l = (Line line) =>
             line.X1 + Application.TOWN_SIZE / 2 == node.X && line.Y1 + Application.TOWN_SIZE / 2 == node.Y ||
             line.X2 + Application.TOWN_SIZE / 2 == node.X && line.Y2 + Application.TOWN_SIZE / 2 == node.Y;
             List<Line> lines = m_Paths.FindAll(pr_l);
 
-            if (el != null)
+            if (el >= 0 && el < m_Nodes.Count)
             {
-                m_Nodes.Remove(el);
-                C_GraphicMap.Children.Remove(el);
+                C_GraphicMap.Children.Remove(m_Nodes[el]);
+                m_Nodes.Remove(m_Nodes[el]);
             }    
             if(lines.Count > 0)
             {
@@ -66,6 +66,14 @@ namespace SalesmanSolver
                     m_Paths.Remove(line);
                     C_GraphicMap.Children.Remove(line);
                 }  
+            }
+
+            C_GraphicMap.Children.Remove(m_Labels[el]);
+            m_Labels.RemoveAt(el);
+
+            for (int i = 0; i < m_Labels.Count; i++)
+            {
+                m_Labels[i].Content = i+1;
             }
         }
 
@@ -88,6 +96,12 @@ namespace SalesmanSolver
             el.Fill = new SolidColorBrush(Colors.White);
             C_GraphicMap.Children.Add(el);
             m_Nodes.Add(el);
+
+            Label l = new Label();
+            l.Margin = new Thickness(node.X - Application.TOWN_SIZE*2, node.Y - Application.TOWN_SIZE*2, 0, 0);
+            l.Content = m_Nodes.Count;
+            C_GraphicMap.Children.Add(l);
+            m_Labels.Add(l);
         }
 
         public void ShowPath(Node n1, Node n2)

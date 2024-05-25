@@ -35,7 +35,7 @@ namespace SalesmanSolver
         public void Solve(object? sender, RoutedEventArgs e)
         {
             string res = m_Model.SolveGraph();
-            m_View.ShowResult(res.Length != 0 ? $"Длина кратчайшего пути: {res}" : "Ошибка расчёта");
+            m_View.ShowResult(res.Length != 0 ? $"Кратчайший путь: {res}" : "Ошибка расчёта");
         }
 
         public void ModifyMap(object? sender, MouseButtonEventArgs e)

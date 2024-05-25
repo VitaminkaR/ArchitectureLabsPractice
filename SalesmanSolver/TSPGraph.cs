@@ -32,6 +32,15 @@ namespace SalesmanSolver
         {
             int townCount = m_Towns.Count;
             int[,] adjacentMatrix = new int[townCount, townCount];
+
+            for (int i = 0; i < townCount; i++)
+            {
+                for (int j = 0; j < townCount; j++)
+                {
+                    adjacentMatrix[i, j] = int.MaxValue;
+                }
+            }
+
             for (int i = 0; i < townCount; i++)
             {
 
@@ -65,16 +74,18 @@ namespace SalesmanSolver
         public void RemoveNode(int id)
         {
             m_Towns.RemoveAt(id);
-            for (int i = 0; i < m_Paths.Count;)
+            Predicate<Node> predicate = (Node node) => node.X == id || node.Y == id ;
+            List<Node> remove_nodes = m_Paths.FindAll(predicate);
+            foreach (var item in remove_nodes)
             {
-                if (m_Paths[i].X == id || m_Paths[i].Y == id)
-                {
-                    m_Paths.RemoveAt(i);
-                } 
-                else
-                {
-                    i++;
-                }
+                m_Paths.Remove(item);
+            }
+            foreach (var item in m_Paths)
+            {
+                if (item.X > id)
+                    item.X--;
+                if (item.Y > id)
+                    item.Y--;
             }
         } 
 
