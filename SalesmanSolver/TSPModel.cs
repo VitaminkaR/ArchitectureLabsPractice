@@ -13,7 +13,6 @@ namespace SalesmanSolver
 
         private int[,] m_CurGraph;
         private int m_CurSize;
-        private List<List<int>> m_CurPaths = new List<List<int>>();
         private List<int>? m_MinRoute;
         private List<int> m_CurPath = new List<int>();
 
@@ -73,7 +72,6 @@ namespace SalesmanSolver
                 m_CurSize = (int)MathF.Sqrt(matrix.Length);
                 m_CurPath = new List<int>();
                 m_MinRoute = null;
-                m_CurPaths = new List<List<int>>();
                 List<int> minPath = Solve();
                 
                 foreach (int city in minPath)
@@ -87,52 +85,43 @@ namespace SalesmanSolver
             return route;
         }
 
-        public List<int> Solve()
+        private List<int> Solve()
         {
-            // Создаем первоначальное состояние
             m_CurPath.Add(0);
 
-            // Перебираем все города
             for (int i = 1; i < m_CurSize; i++)
             {
                 GeneratePaths(i);
             }
 
-            // Возвращаем кратчайший путь, если он существует
             if (m_MinRoute != null)
             {
                 return m_MinRoute;
             }
             else
             {
-                return null; // Путь не существует
+                return null;
             }
         }
 
         private void GeneratePaths(int city)
         {
-            // Если мы посетили все города
             if (m_CurPath.Count == m_CurSize)
             {
-                // Возвращаемся в исходный город
                 m_CurPath.Add(0);
 
-                // Подсчитываем длину пути
                 int pathLength = CalculatePathLength(m_CurPath);
 
-                // Обновляем минимальный путь, если текущий путь короче и не содержит бесконечности
                 if (pathLength != int.MaxValue && (m_MinRoute == null || pathLength < CalculatePathLength(m_MinRoute)))
                 {
                     m_MinRoute = new List<int>(m_CurPath);
                 }
 
-                // Удаляем последний (исходный) город
                 m_CurPath.RemoveAt(m_CurPath.Count - 1);
 
                 return;
             }
 
-            // Добавляем текущий город во все возможные позиции
             for (int i = 0; i < m_CurSize; i++)
             {
                 if (!m_CurPath.Contains(i) && m_CurGraph[m_CurPath.Last(), i] != int.MaxValue)

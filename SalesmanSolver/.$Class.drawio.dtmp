@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-05-28T09:08:59.144Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="eyJ-tpFcxzAZOb-ZHFxf" version="23.0.2" type="device">
+<mxfile host="Electron" modified="2024-05-28T09:19:02.885Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="qxTztFS-JbNqmTnDt13K" version="23.0.2" type="device">
   <diagram name="Страница — 1" id="pmGqpGf3k0LTeaEfwbUP">
     <mxGraphModel dx="1050" dy="629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -209,9 +209,9 @@
             <mxPoint x="335" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6FVHvWj_yTxWEkuHmatx-22" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;exitX=1.009;exitY=0.167;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.004;entryY=0.079;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="ipKlGtH6FQnn0kPwf5p3-1" target="2n0Gqxq4nTMnhEadQPVf-18">
+        <mxCell id="6FVHvWj_yTxWEkuHmatx-22" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;entryX=0.004;entryY=0.079;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.992;exitY=0.108;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="ipKlGtH6FQnn0kPwf5p3-1" target="2n0Gqxq4nTMnhEadQPVf-18">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="630" y="420" as="sourcePoint" />
+            <mxPoint x="296" y="206" as="sourcePoint" />
             <mxPoint x="340" y="130" as="targetPoint" />
           </mxGeometry>
         </mxCell>
