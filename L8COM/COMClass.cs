@@ -7,11 +7,11 @@ namespace L8COM
     public interface ICOMClass
     {
         [DispId(1)]
-        public int RandInt(int x, int y);
+        int RandInt(int x, int y);
         [DispId(2)]
-        public double Pow(double x, double y);
+        double Pow(double x, double y);
         [DispId(3)]
-        public double Solve(double x, double y, double X, double Y);
+        double Solve(double x, double y, double X, double Y);
     }
 
     [Guid("d7406f12-4c48-4297-8629-2cf34d724989"),
@@ -23,7 +23,8 @@ namespace L8COM
 
     [ClassInterface(ClassInterfaceType.None),
     Guid("238d4963-c103-4368-ac20-22fe93ad9a61"),
-        ComSourceInterfaces(typeof(ICOMEvents))]
+        ComSourceInterfaces(typeof(ICOMEvents)),
+        ComVisible(true)]
     public class COMClass : ICOMClass
     {
         public double Pow(double x, double y)
